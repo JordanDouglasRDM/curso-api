@@ -2,11 +2,28 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
+
+    /**
+     * Sobrescrita do metodo unauthenticated para formatar default response quando autenticação falhar.
+     */
+    protected function unauthenticated($request, AuthenticationException $exception): Response|JsonResponse|RedirectResponse
+    {
+        return response()->json([
+            'status' => 'error',
+            'code' => 401,
+            'message' => 'Não autenticado.',
+        ], 401);
+    }
+
     /**
      * A list of exception types with their corresponding custom log levels.
      *
