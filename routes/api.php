@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\UserController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +38,8 @@ Route::prefix('v1')->group(function () {
            'message' => $message,
            'data' => $users
         ]);
-    });
+    })->middleware('auth:sanctum');
+
+    Route::post('/login', [UserController::class, 'login']);
 });
 
